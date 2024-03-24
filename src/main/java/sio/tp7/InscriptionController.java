@@ -44,11 +44,13 @@ public class InscriptionController implements Initializable
     private TableView<Agent> tvAgentsNonInscrits;
     private ServiceActivite serviceActivite;
     private  ServiceFormation serviceFormation;
+    private ServiceAgent serviceAgent;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         try {
+            serviceAgent = new ServiceAgent();
             serviceFormation = new ServiceFormation();
             serviceActivite = new ServiceActivite();
             tcNomActivite.setCellValueFactory(new PropertyValueFactory<>("nomActivite"));
@@ -56,6 +58,9 @@ public class InscriptionController implements Initializable
             tvActivites.setItems(FXCollections.observableArrayList(serviceActivite.GetAllActivites()));
             tcNomFormation.setCellValueFactory(new PropertyValueFactory<>("nomFormation"));
             tcNumeroFormation.setCellValueFactory(new PropertyValueFactory<>("idFormation"));
+            tcNomAgentNonInscrit.setCellValueFactory(new PropertyValueFactory<>("nomAgent"));
+            tcPrenomAgentNonInscrit.setCellValueFactory(new PropertyValueFactory<>("prenomAgent"));
+            tcNumeroAgentNonInscrit.setCellValueFactory(new PropertyValueFactory<>("idAgent"));
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -66,17 +71,17 @@ public class InscriptionController implements Initializable
     @javafx.fxml.FXML
     public void btnInscriptionClicked(Event event) throws SQLException {
 
+
     }
     @javafx.fxml.FXML
-    public void tvFormationsClicked(Event event)
-    {
-
+    public void tvFormationsClicked(Event event) throws SQLException {
+        String formationSelectionnee = tvFormations.getSelectionModel().getSelectedItem().getIdFormation();
+        tvAgentsNonInscrits.setItems(FXCollections.observableArrayList(serviceAgent.GetAllAgentsNonInscritsFormation(formationSelectionnee)));
     }
 
     @javafx.fxml.FXML
     public void tvActivitesClicked(Event event) throws SQLException {
-        String formationSelectionnee = tvFormations.getSelectionModel().getSelectedItem().getNomFormation();
-
-        tvFormations.setItems(FXCollections.observableArrayList(serviceFormation.GetAllFormations()));
+        int numeroActivite = tvActivites.getSelectionModel().getSelectedItem().getIdActivite();
+        tvFormations.setItems(FXCollections.observableArrayList(serviceFormation.GetAllFormationsByIdActivite(numeroActivite)));
     }
 }

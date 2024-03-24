@@ -24,22 +24,24 @@ public class ServiceFormation
         cnx = ConnexionBDD.getCnx();
     }
 
-    public ArrayList<Formation> GetAllFormationsByIdActivite(int idActivite)
-    {
+    public ArrayList<Formation> GetAllFormationsByIdActivite(int idActivite) throws SQLException {
         ArrayList<Formation> lesFormations = new ArrayList<>();
-
-        return lesFormations;
-    }
-
-    public ArrayList<Formation> GetAllFormations() throws SQLException {
-        ArrayList<Formation> lesFormations = new ArrayList<>();
-        ps = cnx.prepareStatement("select * from formations");
+        ps = cnx.prepareStatement("select formation.code, formation.intitule from formation where numeroActivite = ? ");
+        ps.setInt(1, idActivite);
         rs = ps.executeQuery();
         while (rs.next())
         {
-            Formation formation = new Formation(rs.getString(1), rs.getString(3));
+            Formation formation = new Formation(rs.getString(1), rs.getString(2) );
             lesFormations.add(formation);
         }
+        rs.close();
+        ps.close();
+        return lesFormations;
+    }
+
+    public ArrayList<Formation> GetAllFormations()  {
+        ArrayList<Formation> lesFormations = new ArrayList<>();
+
         return lesFormations;
     }
 }
