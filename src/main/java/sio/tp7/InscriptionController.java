@@ -70,6 +70,8 @@ public class InscriptionController implements Initializable
 
     @javafx.fxml.FXML
     public void btnInscriptionClicked(Event event) throws SQLException {
+        //modifier la bdd pour que les gens qui ne soient pas inscrits le soient, donc d'abord re comprendre comment ils sont inscrits puis
+        //comprendre le rapport avec tout ce qui est vide
 
 
     }

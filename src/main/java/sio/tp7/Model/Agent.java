@@ -6,10 +6,6 @@ public class Agent
     private String nomAgent;
     private String prenomAgent;
 
-    public Agent()
-    {
-
-    }
     public Agent(String unId, String unNom, String unPrenom)
     {
         idAgent = unId;

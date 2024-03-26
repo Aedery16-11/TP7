@@ -17,6 +17,7 @@ public class Formation
 
 
 
+
     public String getIdFormation() {
         return idFormation;
     }

@@ -39,8 +39,17 @@ public class ServiceFormation
         return lesFormations;
     }
 
-    public ArrayList<Formation> GetAllFormations()  {
+    public ArrayList<Formation> GetAllFormations() throws SQLException {
         ArrayList<Formation> lesFormations = new ArrayList<>();
+        ps = cnx.prepareStatement("select formation.code, formation.intitule from formation  ");
+        rs = ps.executeQuery();
+        while (rs.next())
+        {
+            Formation formation = new Formation(rs.getString(1), rs.getString(3));
+            lesFormations.add(formation);
+        }
+        rs.close();
+        ps.close();
 
         return lesFormations;
     }
