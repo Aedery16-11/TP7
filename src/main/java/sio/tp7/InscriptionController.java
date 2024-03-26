@@ -12,8 +12,12 @@ import sio.tp7.Services.ServiceActivite;
 import sio.tp7.Services.ServiceAgent;
 import sio.tp7.Services.ServiceFormation;
 import sio.tp7.Services.ServiceInscription;
+import sio.tp7.Tools.ConnexionBDD;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -44,12 +48,21 @@ public class InscriptionController implements Initializable
     private TableView<Agent> tvAgentsNonInscrits;
     private ServiceActivite serviceActivite;
     private  ServiceFormation serviceFormation;
+    private ServiceInscription serviceInscription;
     private ServiceAgent serviceAgent;
+    private PreparedStatement ps;
+
+    private ResultSet rs;
+    String formationSelectionnee;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         try {
+
+            serviceInscription = new ServiceInscription();
             serviceAgent = new ServiceAgent();
             serviceFormation = new ServiceFormation();
             serviceActivite = new ServiceActivite();
@@ -61,10 +74,13 @@ public class InscriptionController implements Initializable
             tcNomAgentNonInscrit.setCellValueFactory(new PropertyValueFactory<>("nomAgent"));
             tcPrenomAgentNonInscrit.setCellValueFactory(new PropertyValueFactory<>("prenomAgent"));
             tcNumeroAgentNonInscrit.setCellValueFactory(new PropertyValueFactory<>("idAgent"));
+            tvAgentsNonInscrits.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE); //selection multiple
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
 
     }
 
@@ -72,13 +88,27 @@ public class InscriptionController implements Initializable
     public void btnInscriptionClicked(Event event) throws SQLException {
         //modifier la bdd pour que les gens qui ne soient pas inscrits le soient, donc d'abord re comprendre comment ils sont inscrits puis
         //comprendre le rapport avec tout ce qui est vide
-
+//        int numeroActivite = tvActivites.getSelectionModel().getSelectedItem().getIdActivite();
+//        String idAgent = String.valueOf(serviceFormation.GetAllFormationsByIdActivite(numeroActivite));
+//        serviceInscription.InsererInscription();
+        if (tvAgentsNonInscrits.getSelectionModel().getSelectedItem() == null)
+        {
+            //alert
+        }
+        else
+        {
+            for (Agent agent : tvAgentsNonInscrits.getSelectionModel().getSelectedItems())
+            {
+                serviceInscription.InsererInscription(formationSelectionnee, agent.getIdAgent());
+            }
+        }
 
     }
     @javafx.fxml.FXML
     public void tvFormationsClicked(Event event) throws SQLException {
-        String formationSelectionnee = tvFormations.getSelectionModel().getSelectedItem().getIdFormation();
+        formationSelectionnee = tvFormations.getSelectionModel().getSelectedItem().getIdFormation();
         tvAgentsNonInscrits.setItems(FXCollections.observableArrayList(serviceAgent.GetAllAgentsNonInscritsFormation(formationSelectionnee)));
+
     }
 
     @javafx.fxml.FXML
