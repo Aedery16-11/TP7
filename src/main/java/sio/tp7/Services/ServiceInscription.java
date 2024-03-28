@@ -26,14 +26,23 @@ public class ServiceInscription
         ps.setString(1, idFormation);
         ps.setString(2, idAgent);
 //      ps.setInt(3, 0); booléen, on fait ça si on a mis un troisième ? mais là ion met juste 0mais là ion met juste 0 et on aurait dû ajouter un paramètre
-
-        ps.close();
         ps.executeUpdate(); //on fait un executeQuery quand on fait un select uniquement là y'a de select
-
+        ps.close();
     }
 
-    public void ModifierPresence(String idFormation, String idAgent, boolean present)
-    {
+    public void ModifierPresence(String idFormation, String idAgent, boolean present) throws SQLException {
+        if (present)
+        {
+            ps = cnx.prepareStatement("update inscription set presence 1 where numeroFormation = ? and codeAgent = ?");
+        }
+        else
+        {
+            ps = cnx.prepareStatement("update inscription set presence 0 where numeroFormation = ? and codeAgent = ?");
+        }
+        ps.setString(1, idFormation);
+        ps.setString(2, idAgent);
+        ps.executeUpdate();
+        ps.close();
 
     }
 }

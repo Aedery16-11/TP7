@@ -40,12 +40,12 @@ public class ServiceAgent {
 
     public ArrayList<AgentPresent> GetAllAgentsInscritsFormation(String idFormation) throws SQLException {
         ArrayList<AgentPresent> lesAgents = new ArrayList<>();
-        ps = cnx.prepareStatement("select agent.code, agent.nom, agent.prenom from agent WHERE agent.code IN(select inscription.codeAgent from inscription where inscription.numeroFormation = ?)");
+        ps = cnx.prepareStatement("SELECT agent.code, agent.nom, agent.prenom,inscription.presence FROM agent  inner JOIN inscription on agent.code = inscription.codeAgent WHERE inscription.numeroFormation = ? ");
         ps.setString(1, idFormation);
         rs = ps.executeQuery();
         while (rs.next())
         {
-            AgentPresent agentPresent =  new AgentPresent(rs.getString(1), rs.getString(2), rs.getString(3));
+            AgentPresent agentPresent =  new AgentPresent(rs.getString("code"), rs.getString("nom"), rs.getString("prenom"), rs.getBoolean("presence"));
             lesAgents.add(agentPresent);
         }
         ps.close();

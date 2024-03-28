@@ -45,7 +45,7 @@ public class ServiceFormation
         rs = ps.executeQuery();
         while (rs.next())
         {
-            Formation formation = new Formation(rs.getString(1), rs.getString(3));
+            Formation formation = new Formation(rs.getString(1), rs.getString(2));
             lesFormations.add(formation);
         }
         rs.close();

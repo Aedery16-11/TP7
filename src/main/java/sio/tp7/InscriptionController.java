@@ -97,10 +97,10 @@ public class InscriptionController implements Initializable
         }
         else
         {
-            for (Agent agent : tvAgentsNonInscrits.getSelectionModel().getSelectedItems())
-            {
-                serviceInscription.InsererInscription(formationSelectionnee, agent.getIdAgent());
+            for (Agent agent : tvAgentsNonInscrits.getSelectionModel().getSelectedItems()){
+                serviceInscription.InsererInscription(formationSelectionnee,agent.getIdAgent());
             }
+            tvAgentsNonInscrits.setItems(FXCollections.observableArrayList(serviceAgent.GetAllAgentsNonInscritsFormation(formationSelectionnee)));
         }
 
     }
