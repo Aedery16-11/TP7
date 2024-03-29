@@ -25,7 +25,7 @@ public class ServiceInscription
         ps = cnx.prepareStatement("insert into inscription values (?, ?, 0)");
         ps.setString(1, idFormation);
         ps.setString(2, idAgent);
-//      ps.setInt(3, 0); booléen, on fait ça si on a mis un troisième ? mais là ion met juste 0mais là ion met juste 0 et on aurait dû ajouter un paramètre
+//      ps.setInt(3, 0); booléen, on fait ça si on a mis un troisième ? mais là on met juste 0 et on aurait dû ajouter un paramètre
         ps.executeUpdate(); //on fait un executeQuery quand on fait un select uniquement là y'a de select
         ps.close();
     }

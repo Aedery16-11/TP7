@@ -98,7 +98,9 @@ public class InscriptionController implements Initializable
         else
         {
             for (Agent agent : tvAgentsNonInscrits.getSelectionModel().getSelectedItems()){
-                serviceInscription.InsererInscription(formationSelectionnee,agent.getIdAgent());
+                serviceInscription.InsererInscription(formationSelectionnee,agent.getIdAgent());//version du prof
+//              serviceInscription.InsererInscription(formationSelectionnee, agentSelectionnee); ce que j'ai fais instinctivement
+
             }
             tvAgentsNonInscrits.setItems(FXCollections.observableArrayList(serviceAgent.GetAllAgentsNonInscritsFormation(formationSelectionnee)));
         }
